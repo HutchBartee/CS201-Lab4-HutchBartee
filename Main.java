@@ -32,7 +32,6 @@ public class Main {
             choice = menu(scanInput);
         }
         scanInput.close();
-
     }
 
     public static char menu(Scanner scanInput){
@@ -51,7 +50,7 @@ public class Main {
         inputString = scanInput.nextLine();
         choice = inputString.toUpperCase().charAt(0);
 
-        //   verify that the choice is L, C or Q 
+        //   verify that the choice is L, C, S, R, or Q 
         if (choice != 'L' && choice != 'C'
         && choice != 'S' && choice != 'R'
         && choice != 'Q'){
