@@ -13,30 +13,54 @@ public class Games {
 
         // Create random number generator and scanner
         Random rand = new Random();
-
+        Scanner scan = new Scanner(System.in);
         // Step 1: Generate a random two-digit lottery number (10 to 99)
         //         && set the 2 digits of lottery number 
-
+        int lotteryNum = (int)(Math.random() * 90) + 10;
+        Integer lottery2 = (lotteryNum % 10);
+        Integer lottery1 = (lotteryNum / 10);
         // Step 2: Prompt the user to enter a two-digit number
- 
+        Integer loop = 0;
+        Integer userGuess = 0;
+        while (loop == 0){
+            System.out.println("Input a number:");
+            userGuess = scan.nextInt();
 
-        // Step 3:Ensure it's a valid two-digit number
- 
+            // Step 3:Ensure it's a valid two-digit number
+            if (userGuess > 9 && userGuess < 100){
+                loop = 1;
+            }
+            else{
+                System.out.println("Number must be between 9 and 100.");
+                scan.close();
+                break;
+            }
+        }
+
         // Step 4: get the 2 digits of userGuess
-
+        Integer user2 = (userGuess % 10);
+        Integer user1 = (userGuess / 10);
         // Step 5: Display lottery number
- 
+        System.out.println("Your lottery number is " + lotteryNum);
 
         // Step 6: Check for types of matches & print results
         // exact match
+        if (lotteryNum == userGuess){
+            System.out.println("Exact match: You win $10,000!!!");
+        }
  
         // Step 7: Check for all digits match (in different order)
- 
+        else if (lottery1 == user2 && lottery2 == user1){
+            System.out.println("Exact match out of order: You win $3,000!!");
+        }
         // Step 8: Check for one digit match
- 
+        else if (lottery1 == user1 || lottery2 == user2){
+            System.out.println("Single digit match: You win $1,000!");
+        }
         // Step 9: No match
- 
-
+        else{
+            System.out.println("Sorry, no match.");
+        }
     }
 
     //PRE:  accepts scanner from main
@@ -46,13 +70,55 @@ public class Games {
     //      the user cannot play anymore if they are out of money
 
     public static void playCraps(Scanner input) {
+        Random rand = new Random();
+        Scanner scan = new Scanner(System.in);
         System.out.println("\nWELCOME TO CRAPS!!\n");
-        double netWorth = 50;
-          
-        System.out.println("Thanks for playing! You ended with $" + netWorth);
+        Double userBet = 0.00;
+        Double netWorth = 50.00;
+        int playing = 1;
+        while (playing == 1){
+            System.out.println("Your net worth is: $" + netWorth + ". Please enter a valid bet: ");
+            userBet = scan.nextDouble();
+            int firstRoll = (int)(Math.random() * 6) + 1;
+            int secondRoll = (int)(Math.random() * 6) + 1;
+            int rollTotal = firstRoll + secondRoll;
+            System.out.println("You rolled: " + firstRoll + " + " + secondRoll + " = " + rollTotal);
+            if (rollTotal == 7 || rollTotal == 11){
+                System.out.println("You win!");
+                netWorth = netWorth + userBet;
+            }
+            else if (rollTotal == 2 || rollTotal == 3 || rollTotal == 12){
+                System.out.println("You lose!");
+                netWorth = netWorth - userBet;
+            }
+            else{
+                int winDecide = 0;
+                while (winDecide == 0){
+                    int firstPointRoll = (int)(Math.random() * 6) + 1;
+                    int secondPointRoll = (int)(Math.random() * 6) + 1;
+                    int rollPointTotal = firstPointRoll + secondPointRoll;
+                    System.out.println("You rolled: " + firstPointRoll + " + " + secondPointRoll + " = " + rollPointTotal);
+                    if (rollPointTotal == 7){
+                        winDecide = 1;
+                        System.out.println("You lose!");
+                        netWorth = netWorth - userBet;
+                    }
+                    else if (rollPointTotal == rollTotal){
+                        winDecide = 1;
+                        System.out.println("You win!");
+                        netWorth = netWorth + userBet;
+                    }
+                }
+            }
+            System.out.println("Continue playing? (1 for yes, 0 for no)");
+            int cont = 0;
+            cont = scan.nextInt();
+            if (cont == 0){
+                playing = 0;
+            }
+        }
+        System.out.println("Thanks for playing!");
 
     }
 
 }
- 
-
