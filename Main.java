@@ -22,6 +22,9 @@ public class Main {
             else if (choice == 'R'){
                 Games.playRPS(scanInput);
             }
+            else if (choice == 'B'){
+                Games.playBlackjack(scanInput);
+            }
             else if (choice == 'Q'){
                 System.out.println("Goodbye!");
                 break;
@@ -44,6 +47,7 @@ public class Main {
         System.out.println("C       Craps");
         System.out.println("S       Scraps");
         System.out.println("R       Rock, Paper, Scissors");
+        System.out.println("B       Blackjack");
         System.out.println("Q       Quit");
         //   prompt user, get response & convert to upper case
         System.out.print("What choice do you prefer: ");
@@ -53,7 +57,7 @@ public class Main {
         //   verify that the choice is L, C, S, R, or Q 
         if (choice != 'L' && choice != 'C'
         && choice != 'S' && choice != 'R'
-        && choice != 'Q'){
+        && choice != 'B' && choice != 'Q'){
             System.out.println("Invalid option!");
             choice = menu(scanInput);
         }

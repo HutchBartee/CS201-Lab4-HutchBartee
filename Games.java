@@ -268,4 +268,91 @@ public class Games {
             }
         }
     }
+    
+    public static void playBlackjack(Scanner input){
+    Random rand = new Random();
+    Scanner scan = new Scanner(System.in);
+    String[] suits = {"[D]", "[H]", "[S]", "[C]"};
+    String[] cards = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
+    int[] cardVals = {11,2,3,4,5,6,7,8,9,10,10,10,10};
+    int topCardVal = 0;
+    System.out.println("\nWELCOME TO BLACKJACK!!\n");
+        ArrayList<Integer> deck = new ArrayList<Integer>();
+        for(int j = 0; j < 52; j++){
+           deck.add(j);
+        }
+        ArrayList<Integer> shuffleDeck = new ArrayList<Integer>();
+        for(int k = 0; k < 52; k++){
+            int randCard = deck.get(rand.nextInt(deck.size()));
+            deck.remove(Integer.valueOf(randCard));
+            shuffleDeck.add(randCard);
+        }
+        ArrayList<String> shuffleDeckCards = new ArrayList<String>();
+        ArrayList<Integer> shuffleDeckVals = new ArrayList<Integer>();
+        for(int l = 0; l < 52; l++){
+            int suitVal = shuffleDeck.get(l) / 13;
+            int faceVal = shuffleDeck.get(l) % 13;
+            String suit = suits[suitVal];
+            String face = cards[faceVal];
+            String fullCard = (suit + face);
+            shuffleDeckCards.add(fullCard);
+            int faceScoreVal = cardVals[faceVal];
+            shuffleDeckVals.add(faceScoreVal);
+        }
+        ArrayList<String> playerHand = new ArrayList<String>();
+        ArrayList<Integer> playerHandVals = new ArrayList<Integer>();
+        for(int m = 0; m < 2; m++){
+            String topCard = shuffleDeckCards.get(0);
+            topCardVal = shuffleDeckVals.get(0);
+            playerHand.add(topCard);
+            playerHandVals.add(topCardVal);
+            shuffleDeckCards.remove(0);
+            shuffleDeckVals.remove(0);
+        }
+        ArrayList<String> cpuHand = new ArrayList<String>();
+        for(int n = 0; n < 2; n++){
+            String topCard = shuffleDeckCards.get(0);
+            cpuHand.add(topCard);
+            shuffleDeckCards.remove(0);
+            shuffleDeckVals.remove(0);
+        }
+        int choice = 0;
+        int cardcount = 2;
+        int playing = 1;
+        while(playing == 1){
+            while(choice == 0){
+                int playerCardValsTotal = 0;
+                for(int p = 0; p < cardcount; p++){
+                    System.out.println(playerHand.get(p));
+                    playerCardValsTotal = (playerCardValsTotal += playerHandVals.get(p));
+                }
+                System.out.println(playerCardValsTotal);
+                if(playerCardValsTotal > 21){
+                    if(playerHandVals.contains(11)){
+                        int elevenPos = playerHandVals.indexOf(11);
+                        playerHandVals.remove(elevenPos);
+                        playerHandVals.add(1);
+                    }
+                    else{
+                    System.out.println("You lose!");
+                    playing = 0;
+                    break;
+                    }
+                }
+                System.out.println("Draw another card? Y / N");
+                String drawCard = scan.nextLine();
+                if (drawCard.equals("Y")){
+                    String topCard = shuffleDeckCards.get(0);
+                    playerHand.add(topCard);
+                    playerHandVals.add(topCardVal);
+                    shuffleDeckCards.remove(0);
+                    shuffleDeckVals.remove(0);
+                    cardcount += 1;
+                }
+                else if(drawCard.equals("N")){
+                    choice = 1;
+                }
+            }
+        }
+    }
 }
