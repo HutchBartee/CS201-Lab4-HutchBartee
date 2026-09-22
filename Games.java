@@ -272,7 +272,11 @@ public class Games {
     public static void playBlackjack(Scanner input){
     Random rand = new Random();
     Scanner scan = new Scanner(System.in);
-    String[] suits = {"[D]", "[H]", "[S]", "[C]"};
+    String diam = "\u2666";
+    String heart = "\u2665";
+    String spade = "\u2660";
+    String club = "\u2663";
+    String[] suits = {diam, heart, spade, club};
     String[] cards = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
     int[] cardVals = {11,2,3,4,5,6,7,8,9,10,10,10,10};
     int topCardVal = 0;
@@ -326,11 +330,12 @@ public class Games {
         while(playing == 1){
             while(choice == 0){
                 int playerCardValsTotal = 0;
+                System.out.println("\nYour cards:");
                 for(int p = 0; p < cardcount; p++){
                     System.out.println(playerHand.get(p));
                     playerCardValsTotal = (playerCardValsTotal += playerHandVals.get(p));
                 }
-                System.out.println(playerCardValsTotal);
+                System.out.println("\nYour score:\n"+playerCardValsTotal);
                 if(playerCardValsTotal > 21){
                     if(playerHandVals.contains(11) || (cpuHandVals.contains(1))){
                         int elevenPos = playerHandVals.indexOf(11);
@@ -338,13 +343,13 @@ public class Games {
                         playerHandVals.add(1);
                     }
                     else{
-                    System.out.println("You lose!");
+                    System.out.println("\nYour score exceeded 21.\nYou lose!");
                     playing = 0;
                     playerLoss = 1;
                     break;
                     }
                 }
-                System.out.println("Draw another card? Y / N");
+                System.out.println("\nDraw another card? Y / N");
                 String drawCard = scan.nextLine();
                 if (drawCard.equals("Y")){
                     String topCard = shuffleDeckCards.get(0);
@@ -363,12 +368,13 @@ public class Games {
             int cpuChoice = 0;
             int cpuCardCount = 2;
             while(cpuChoice == 0 && playerLoss == 0){
+                System.out.println("\nCPU's cards:");
                 int cpuCardValsTotal = 0;
                 for(int q = 0; q < cpuCardCount; q++){
                     System.out.println(cpuHand.get(q));
                     cpuCardValsTotal = (cpuCardValsTotal += cpuHandVals.get(q));
                 }
-                System.out.println(cpuCardValsTotal);
+                System.out.println("\nCPU score:\n"+cpuCardValsTotal);
                 if(cpuCardValsTotal < 18){
                     String topCard = shuffleDeckCards.get(0);
                     topCardVal = shuffleDeckVals.get(0);
@@ -389,7 +395,7 @@ public class Games {
                         cpuHandVals.add(1);
                     }
                     else{
-                        System.out.println("You win!");
+                        System.out.println("\nCPU score exceeded 21.\nYou win!");
                         playing = 0;
                         break;
                     }
