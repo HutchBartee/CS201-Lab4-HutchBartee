@@ -310,15 +310,19 @@ public class Games {
             shuffleDeckVals.remove(0);
         }
         ArrayList<String> cpuHand = new ArrayList<String>();
+        ArrayList<Integer> cpuHandVals = new ArrayList<Integer>();
         for(int n = 0; n < 2; n++){
             String topCard = shuffleDeckCards.get(0);
+            topCardVal = shuffleDeckVals.get(0);
             cpuHand.add(topCard);
+            cpuHandVals.add(topCardVal);
             shuffleDeckCards.remove(0);
             shuffleDeckVals.remove(0);
         }
         int choice = 0;
         int cardcount = 2;
         int playing = 1;
+        int playerLoss = 0;
         while(playing == 1){
             while(choice == 0){
                 int playerCardValsTotal = 0;
@@ -328,7 +332,7 @@ public class Games {
                 }
                 System.out.println(playerCardValsTotal);
                 if(playerCardValsTotal > 21){
-                    if(playerHandVals.contains(11)){
+                    if(playerHandVals.contains(11) || (cpuHandVals.contains(1))){
                         int elevenPos = playerHandVals.indexOf(11);
                         playerHandVals.remove(elevenPos);
                         playerHandVals.add(1);
@@ -336,6 +340,7 @@ public class Games {
                     else{
                     System.out.println("You lose!");
                     playing = 0;
+                    playerLoss = 1;
                     break;
                     }
                 }
@@ -343,6 +348,7 @@ public class Games {
                 String drawCard = scan.nextLine();
                 if (drawCard.equals("Y")){
                     String topCard = shuffleDeckCards.get(0);
+                    topCardVal = shuffleDeckVals.get(0);
                     playerHand.add(topCard);
                     playerHandVals.add(topCardVal);
                     shuffleDeckCards.remove(0);
@@ -351,6 +357,42 @@ public class Games {
                 }
                 else if(drawCard.equals("N")){
                     choice = 1;
+                    int cpuChoice = 0;
+                }
+            }
+            int cpuChoice = 0;
+            int cpuCardCount = 2;
+            while(cpuChoice == 0 && playerLoss == 0){
+                int cpuCardValsTotal = 0;
+                for(int q = 0; q < cpuCardCount; q++){
+                    System.out.println(cpuHand.get(q));
+                    cpuCardValsTotal = (cpuCardValsTotal += cpuHandVals.get(q));
+                }
+                System.out.println(cpuCardValsTotal);
+                if(cpuCardValsTotal < 18){
+                    String topCard = shuffleDeckCards.get(0);
+                    topCardVal = shuffleDeckVals.get(0);
+                    cpuHand.add(topCard);
+                    cpuHandVals.add(topCardVal);
+                    shuffleDeckCards.remove(0);
+                    shuffleDeckVals.remove(0);
+                    cpuCardCount += 1;
+                }
+                else{
+                    cpuChoice = 1;
+                    choice = 0;
+                }
+                if(cpuCardValsTotal > 21){
+                    if(cpuHandVals.contains(11) || (cpuHandVals.contains(1))){
+                        int elevenPos = cpuHandVals.indexOf(11);
+                        cpuHandVals.remove(elevenPos);
+                        cpuHandVals.add(1);
+                    }
+                    else{
+                        System.out.println("You win!");
+                        playing = 0;
+                        break;
+                    }
                 }
             }
         }
